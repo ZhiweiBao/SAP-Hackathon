@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const ChallengeSchema = new Schema({
     title: String,
     rule: String,
-    requiredEventType: String,
+    required_event_type: String,
     month: Date,
-    badgeId: { type: Schema.Types.ObjectId, ref: "Badge" },
+    badge: { type: Schema.Types.ObjectId, ref: "Badge" },
 });
 
 module.exports = mongoose.model('Challenge', ChallengeSchema);

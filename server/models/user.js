@@ -7,13 +7,13 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    firstName: String,
-    lastName: String,
+    first_name: String,
+    last_name: String,
     organization: String,
     location: String,
-    totalPoints: Number,
-    arrayOfBadges: [{ type: Schema.Types.ObjectId, ref: "Badge" }],
-    arrayOfEvents: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+    total_points: Number,
+    badges: [{ type: Schema.Types.ObjectId, ref: "Badge" }],
+    events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
 });
 
 module.exports = mongoose.model('User', UserSchema);

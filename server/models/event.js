@@ -7,7 +7,7 @@ const EventSchema = new Schema({
     date: Date,
     location: String,
     context: String,
-    pointsToGain: Number,
+    points: Number,
     attendees: [{ type: Schema.Types.ObjectId, ref: "User" }],
     creator: { type: Schema.Types.ObjectId, ref: "User" },
 });
