@@ -10,7 +10,6 @@ var usersRouter = require('./routes/users');
 
 if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
-  console.log("dotenv loaded");
 }
 
 const dbUrl = process.env.URI;
@@ -22,14 +21,11 @@ mongoose.connect(dbUrl, {
   // useFindAndModify: false
 });
 
-
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("SAP HACK Database connected");
 });
-
-
 
 
 var app = express();
@@ -62,10 +58,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
-
-
 
 
 module.exports = app;
