@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passportLocalMongoose = require('passport-local-mongoose');
+const User = require('./user');
+const Badge = require('./badge');
+// const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
     email: {
@@ -17,6 +19,6 @@ const UserSchema = new Schema({
     arrayOfEvents: [{ type: Schema.Types.ObjectId, ref: "Event" }],
 });
 
-UserSchema.plugin(passportLocalMongoose);
+// UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', UserSchema);
