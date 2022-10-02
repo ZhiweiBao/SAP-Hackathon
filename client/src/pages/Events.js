@@ -2,14 +2,18 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Search from "../components/Search"
-import { fetchAllEvents } from "../api/API";
+import {fetchAllEvents, fetchEventsFilterByTitle} from "../api/API";
 import EventCard from "../components/EventCard";
+import data from "bootstrap/js/src/dom/data";
 
 
 export default function Events() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
+    // TODO populate data into page
+    fetchEventsFilterByTitle("SAP").then((data)=>console.log(data));
+
     fetchAllEvents().then((data) => {
       setEvents(data);
       console.log("data: ", data);

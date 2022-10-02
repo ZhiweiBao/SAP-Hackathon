@@ -10,6 +10,20 @@ exports.event_list = function (req, res) {
   })
 }
 
+// GET request: get all events filter by title and sort by attendees number
+exports.event_list_filter_by_title = function (req, res) {
+  Event.find({
+    title: new RegExp(req.params.title, "i")
+  })
+    .sort({attendees: -1})
+    .exec(function (err, event_list) {
+      if (err) {
+        return res.status(500).json({message: err});
+      }
+      res.status(200).json(event_list);
+    })
+}
+
 // GET request: get one event by Id.
 exports.event_detail = function (req, res) {
   Event.findById(req.params.id).exec(function (err, event) {

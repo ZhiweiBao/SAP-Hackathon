@@ -74,6 +74,16 @@ export async function fetchAllEvents() {
   }
 }
 
+// fetch all events filter by title
+export async function fetchEventsFilterByTitle(title) {
+  try {
+    const response = await fetch(`${serverUrl}/events/title/${title}`);
+    return await response.json();
+  } catch (err) {
+    console.log(`Fetch failed: event list filter by title.\nError: ${err}`);
+  }
+}
+
 // fetch event data
 export async function fetchEventByID(id) {
   try {

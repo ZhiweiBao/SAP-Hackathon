@@ -3,7 +3,7 @@ import "./css/home.css";
 import Greeting from "../components/Greeting";
 import { FaArrowCircleRight } from "react-icons/fa";
 import ResponsiveSlider from "../components/TrailCollectionComponents/ResponsiveSlider";
-import {fetchAllEvents, fetchLatestChallenge} from "../api/API";
+import {fetchAllEvents, fetchAllUsersSortByTotalPoints, fetchLatestChallenge} from "../api/API";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
@@ -13,8 +13,12 @@ export default function Home() {
   console.log(events);
 
   useEffect(() => {
+    // TODO populate data into page
     fetchLatestChallenge()
       .then((data) => console.log(data));
+    // TODO populate data into page
+    fetchAllUsersSortByTotalPoints().then((data)=>console.log(data));
+
     const getEvents = async () => {
       const data = await fetchAllEvents();
       setEvents(data);

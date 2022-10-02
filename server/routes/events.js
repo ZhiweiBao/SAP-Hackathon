@@ -5,6 +5,9 @@ const event_controller = require("../controller/eventController");
 /* GET events listing. */
 router.get('/', event_controller.event_list);
 
+// GET request: get events by title.
+router.get("/title/:title", event_controller.event_list_filter_by_title);
+
 // GET request: get one event by event id.
 router.get("/:id", event_controller.event_detail);
 

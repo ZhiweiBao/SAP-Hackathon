@@ -11,7 +11,10 @@ function UserLists() {
   const [trails, setTrails] = useState([]);
 
   useEffect(() => {
+    // TODO populate data into page
     fetchAllUsersSortByTotalPoints().then((data)=>console.log(data));
+
+
     async function fetchUserList() {
       try {
         const response = await fetch(
