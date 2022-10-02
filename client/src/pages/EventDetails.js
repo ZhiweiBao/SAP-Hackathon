@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { user, isAuthenticated, useAuth0 } from "@auth0/auth0-react";
 import "./css/TrailDetails.css";
 import { useEffect, useState } from "react";
 import {
@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import ReviewPanel from "../components/ReviewPanel";
 import AddReview from "../components/AddReview";
-import { fetchEventByID } from "../api/API";
+import { fetchEventByID, fetchUserByID, fetchUserByEmail } from "../api/API";
 import moment from "moment";
 
 export default function EventDetails() {
@@ -23,13 +23,24 @@ export default function EventDetails() {
   const { eventId } = useParams();
 
   const [event, setEvent] = useState({});
+  const [attendees, setAttendees] = useState([]);
+
 
   useEffect(() => {
     fetchEventByID(eventId).then((data) => {
       setEvent(data);
+      setAttendees(data.attendees);
       console.log("current event data is: ", data);
     });
   }, []);
+
+  const userId = fetchUserByEmail(user.email).then((data) => {
+    console.log("current user raw data is:  ", data);
+    console.log("current user id is: ", data[0]._id);
+    return data[0]._id;
+  });
+
+
 
 
 
@@ -54,65 +65,52 @@ export default function EventDetails() {
   //   fetchTrails();
   // }, [trailId]);
 
-  // useEffect(() => {
-  //   async function fetchUserList() {
-  //     try {
-  //       const response = await fetch(`/api/users/${user.sub}`);
-  //       if (!response.ok) {
-  //         throw Error("Fetch failed");
-  //       }
-  //       const data = await response.json();
-  //       setUserLists(data.lists);
-  //     } catch (err) {
-  //       console.log("catch ", err);
-  //     }
-  //   }
-  //   fetchUserList();
-  // }, [trailId]);
 
-  // async function addToList() {
-  //   if (!isAuthenticated) {
-  //     loginWithRedirect({ appState: { returnTo: window.location.pathname } })
-  //     return;
-  //   }
 
-  //   const newTrail = `${trailId}`;
-  //   try {
-  //     const updatedMyLists = [];
-  //     updatedMyLists.push(newTrail);
-  //     userLists.map((item) => updatedMyLists.push(item));
-  //     const response = await fetch(`/api/users/update/lists/${user.sub}`, {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         lists: updatedMyLists,
-  //       }),
-  //     });
-  //     if (!response.ok) {
-  //       throw Error("Post request failed!");
-  //     }
-  //     setUserLists(updatedMyLists);
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
+  async function addToList() {
+    console.log("trying to add to user's event");
+    if (!isAuthenticated) {
+      loginWithRedirect({ appState: { returnTo: window.location.pathname } })
+      return;
+    }
 
-  //   try {
-  //     const newlike = like + 1;
-  //     const response = await fetch(`/api/trails/like/${trailId}`, {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         like: newlike,
-  //       }),
-  //     });
-  //     if (!response.ok) {
-  //       throw Error("PATCH request failed!");
-  //     }
-  //     setLike(newlike);
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
+    // const newEventId = `${event._id}`;
+    // try {
+    //   const updatedMyLists = [];
+    //   updatedMyLists.push(newEventId);
+    //   userLists.map((item) => updatedMyLists.push(item));
+    //   const response = await fetch(`/api/users/update/lists/${user.sub}`, {
+    //     method: "POST",
+    //     headers: { "Content-type": "application/json" },
+    //     body: JSON.stringify({
+    //       lists: updatedMyLists,
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //     throw Error("Post request failed!");
+    //   }
+    //   setUserLists(updatedMyLists);
+    // } catch (err) {
+    //   console.log("err", err);
+    // }
+
+    // try {
+    //   const newlike = like + 1;
+    //   const response = await fetch(`/api/trails/like/${trailId}`, {
+    //     method: "POST",
+    //     headers: { "Content-type": "application/json" },
+    //     body: JSON.stringify({
+    //       like: newlike,
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //     throw Error("PATCH request failed!");
+    //   }
+    //   setLike(newlike);
+    // } catch (err) {
+    //   console.log("err", err);
+    // }
+  }
 
   // useEffect(() => {
   //   async function fetchNearByTrail() {
@@ -132,42 +130,43 @@ export default function EventDetails() {
   //   fetchNearByTrail();
   // }, [Lng]);
 
-  // async function removeFromList() {
-  //   const deletedId = trailId;
+  async function removeFromList() {
+    console.log("trying to withdraw from event");
+    // const deletedId = trailId;
 
-  //   try {
-  //     const updatedLists = userLists.filter((item) => item !== deletedId);
-  //     const response = await fetch(`/api/users/update/lists/${user.sub}`, {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         lists: updatedLists,
-  //       }),
-  //     });
+    // try {
+    //   const updatedLists = userLists.filter((item) => item !== deletedId);
+    //   const response = await fetch(`/api/users/update/lists/${user.sub}`, {
+    //     method: "POST",
+    //     headers: { "Content-type": "application/json" },
+    //     body: JSON.stringify({
+    //       lists: updatedLists,
+    //     }),
+    //   });
 
-  //     setUserLists(updatedLists);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
+    //   setUserLists(updatedLists);
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
-  //   try {
-  //     const newlike = like - 1;
-  //     if (newlike < 0) return;
-  //     const response = await fetch(`/api/trails/unlike/${trailId}`, {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         like: newlike,
-  //       }),
-  //     });
-  //     if (!response.ok) {
-  //       throw Error("Post request failed!");
-  //     }
-  //     setLike(newlike);
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
+    // try {
+    //   const newlike = like - 1;
+    //   if (newlike < 0) return;
+    //   const response = await fetch(`/api/trails/unlike/${trailId}`, {
+    //     method: "POST",
+    //     headers: { "Content-type": "application/json" },
+    //     body: JSON.stringify({
+    //       like: newlike,
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //     throw Error("Post request failed!");
+    //   }
+    //   setLike(newlike);
+    // } catch (err) {
+    //   console.log("err", err);
+    // }
+  }
 
   return (
     <div className="detail-wrapper">
@@ -221,23 +220,23 @@ export default function EventDetails() {
           </div>
 
 
-          {/* <div className="addlist">
-            <p>{like} trailcoholics like this trail. Do you like it?</p>
-            {userLists.includes(trailId) ? (
+          <div className="addlist">
+            <p>Join my SAP colleague!</p>
+            {attendees.includes(userId) ? (
               <button
                 onClick={removeFromList}
                 className="addToListBtn like-button"
               >
                 <FaStar color="#f5d24c"></FaStar>
-                Remove From My Lists
+                Withdraw
               </button>
             ) : (
               <button onClick={addToList} className="like-button">
                 <FaRegStar color="#f5d24c"></FaRegStar>
-                Add to my lists
+                Sign Up
               </button>
             )}
-          </div> */}
+          </div>
         </div>
 
         <hr />
