@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAllChallenges, fetchLatestChallenge } from "../api/API";
 import ChallengeCard from "../components/ChallengeCard";
+import ChallengeCard2 from "../components/TrailCollectionComponents/ChallengeCard2";
 
 export default function Challenge() {
 
@@ -33,9 +34,20 @@ export default function Challenge() {
 
       {
         challenges.map((item, index) => (
-          <ChallengeCard key={index} challenge={item}></ChallengeCard>
+          <ChallengeCard2 key={index} challenge={item}></ChallengeCard2>
         ))
       }
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+
 
     </div>
   );
