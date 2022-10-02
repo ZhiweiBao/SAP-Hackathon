@@ -2,9 +2,10 @@ import React from "react";
 import { FaTree, FaMale } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../css/Search.css";
+import moment from "moment";
 
 export default function SearchResult({ event }) {
-  const num = 5;
+  const num = event?.attendees.length;
   const picNum = num % 5;
   const hikePicUri = "trail_" + picNum + ".jpg";
   const cyclePicUri = "cycling_" + picNum + ".jpg";
@@ -46,7 +47,7 @@ export default function SearchResult({ event }) {
                 <div className="search-card-description">
                 <span>Location: {event?.location}</span>
                   <span> • </span>
-                  <span>Date: {event?.date.substring(5, 10)}</span>
+                  <span>Date: {moment(event.date).format('MMM DD')}</span>
                 </div>
               </div>
             </div>
