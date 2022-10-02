@@ -15,7 +15,7 @@ exports.event_list = function (req, res) {
 // GET request: get all events sort by number of attendees.
 exports.event_list_sort_by_attendees_length = function (req, res) {
   Event.find()
-    .sort({attendeeNumber: -1})
+    .sort({points: -1})
     .exec(function (err, event_list) {
       if (err) {
         return res.status(500).json({message: err});
