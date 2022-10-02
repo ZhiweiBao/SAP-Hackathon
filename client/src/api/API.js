@@ -1,8 +1,10 @@
+const serverUrl = process.env.REACT_APP_BASE_URL
+
 //fetch user data
 export async function fetchUserByID(id) {
   try {
     const response = await fetch(
-      `/users/${id}`);
+      `${serverUrl}/users/${id}`);
     if (!response.ok) {
       throw Error("Fetch failed: user infomation");
     }
@@ -17,7 +19,7 @@ export async function fetchUserByID(id) {
 export async function fetchEventByID(id) {
   try {
     const response = await fetch(
-      `/events/${id}`);
+      `${serverUrl}/events/${id}`);
     if (!response.ok) {
       throw Error("Fetch failed: event");
     }
@@ -30,7 +32,7 @@ export async function fetchEventByID(id) {
 
 export async function fetchAllEvents() {
   try {
-    const response = await fetch("/events");
+    const response = await fetch(`${serverUrl}/events`);
 
     if (!response.ok) {
       throw Error("Fetch failed: all events");
