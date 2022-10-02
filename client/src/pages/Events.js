@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Search from "../components/Search";
 import { fetchAllEvents, fetchEventsFilterByTitle } from "../api/API";
-import EventCard from "../components/EventCard";
+import SearchResult from "../components/TrailCollectionComponents/SearchResult";
 
 export default function Events() {
   const { searchCriteria } = useParams();
@@ -37,13 +37,17 @@ export default function Events() {
         <h1>Browse SAP Green Events</h1>
         <Search></Search>
       </div>
+
+      <hr/>
       
       {searchEvents.length === 0 &&  <>{events.map((item, index) => (
-        <EventCard key={index} event={item}></EventCard>
+        // <EventCard key={index} event={item}></EventCard>
+        <SearchResult key={index} event={item}/>
       ))}</> }
 
       {searchEvents.map((item, index) => (
-        <EventCard key={index} event={item}></EventCard>
+        // <EventCard key={index} event={item}></EventCard>
+        <SearchResult key={index} event={item}/>
       ))}
 
       {events.length === 0 && <p>No result.</p>}
