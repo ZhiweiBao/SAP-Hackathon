@@ -42,8 +42,7 @@ function AppRouter() {
 
       <Route path="/user/profile" element={<ProtectedRoute Component={UserProfile} />} />
       <Route path="/user/lists" element={<ProtectedRoute Component={UserLists} />} />
-      {/* <Route path="/events/search" element={<SearchPage/>}/>
-      <Route path="/events/search/:searchCriteria" element={<SearchPage/>}/> */}
+      <Route path="/events/search/:searchCriteria" element={<Events/>}/>
       <Route path="*" element={<p>This page isn't available. Sorry about that. </p>} />
     </Routes>
   );
