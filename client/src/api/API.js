@@ -50,6 +50,30 @@ export async function fetchEventByID(id) {
   }
 }
 
+// add attendee to event
+export async function updateEventAddAttendee(eventId, userId) {
+  try {
+    const response = await fetch(`${serverUrl}/events/${eventId}/addAttendee/${userId}`, {
+      method: 'PUT'
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(`Update failed: add event attendees.\n Error: ${err}`);
+  }
+}
+
+// remove attendee from event
+export async function updateEventRemoveAttendee(eventId, userId) {
+  try {
+    const response = await fetch(`${serverUrl}/events/${eventId}/removeAttendee/${userId}`, {
+      method: 'PUT'
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(`Update failed: remove event attendees.\n Error: ${err}`);
+  }
+}
+
 // fetch all badges
 export async function fetchAllBadges() {
   try {
