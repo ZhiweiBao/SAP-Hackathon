@@ -20,3 +20,14 @@ exports.user_detail = function (req, res, next) {
         res.status(200).json(user);
     });
 };
+
+// GET request: get one user by email.
+exports.user_detail_by_email = function (req, res, next) {
+    User.find({email: req.params.email}).exec(function (err, user) {
+        if (err) {
+            // return next(err);
+            return res.status(500).json({message: err});
+        }
+        res.status(200).json(user);
+    });
+};
