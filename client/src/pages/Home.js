@@ -25,11 +25,7 @@ export default function Home() {
     // TODO populate data into page
     fetchAllUsersSortByTotalPoints().then((data) => console.log(data));
 
-    const getEvents = async () => {
-      const data = await fetchAllEvents();
-      setRecentEvents(data);
-    };
-    getEvents();
+    fetchAllEvents().then(data => setRecentEvents(data));
 
     fetchAllEventsSortByPopularity().then((data) => setPopularEvents(data));
 

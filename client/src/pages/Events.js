@@ -12,17 +12,16 @@ export default function Events() {
   const [searchEvents,setSearchEvents] = useState([]);
 
   useEffect(() => {
-    // TODO populate data into page
-    fetchAllEvents().then((data) => {
-      setEvents(data);
-      console.log("all event: ", data);
-    });
-
     if (searchCriteria != null) {
       fetchEventsFilterByTitle(searchCriteria).then((data) => {
         console.log("Title", searchCriteria);
         console.log(data);
         setSearchEvents(data);
+      });
+    } else {
+      fetchAllEvents().then((data) => {
+        setEvents(data);
+        console.log("all event: ", data);
       });
     }
 
