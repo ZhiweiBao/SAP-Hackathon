@@ -3,29 +3,25 @@ import "./css/home.css";
 import Greeting from "../components/Greeting";
 import { FaArrowCircleRight } from "react-icons/fa";
 import ResponsiveSlider from "../components/TrailCollectionComponents/ResponsiveSlider";
-import { fetchAllTrails, fetchTrailsByMode } from "../api/API";
+import { fetchAllEvents } from "../api/API";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   const { user,isAuthenticated } = useAuth0();
-  const [userLists, setUserLists] = useState([]);
-  const [userTrails, setUserTrails] = useState([]);
-  const [trails, setTrails] = useState([]);
-  const [cyclingTrails, setCyclingTrails] = useState([]);
-  const [hikingTrails, setHikingTrails] = useState([]);
+  const [events, setEvents] = useState([]);
+  console.log(events);
 
-  // useEffect(() => {
-  //   const getTrails = async () => {
-  //     const data = await fetchAllTrails();
-  //     const cycling = await fetchTrailsByMode("cycling");
-  //     const hiking = await fetchTrailsByMode("walking");
-  //     setTrails(data);
-  //     setCyclingTrails(cycling);
-  //     setHikingTrails(hiking);
-  //   };
-  //   getTrails();
-  // }, []);
+
+
+
+  useEffect(() => {
+    const getEvents = async () => {
+      const data = await fetchAllEvents();
+      setEvents(data);
+    };
+    getEvents();
+  }, []);
 
   // useEffect(() => {
   //   async function fetchUserList() {
@@ -87,7 +83,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* <ResponsiveSlider list={trails}></ResponsiveSlider> */}
+          <ResponsiveSlider list={events}></ResponsiveSlider>
         </div>
 
         <div className="section-container favoriteHiking">

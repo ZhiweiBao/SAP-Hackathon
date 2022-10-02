@@ -1,10 +1,10 @@
 import React from "react";
 import "../css/TrailCollection.css";
-import { FaStar, FaBicycle, FaHiking } from "react-icons/fa";
+import { FaTree, FaMale } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export default function PopularHikingTrail({ trail }) {
-  const num = trail?.image;
+export default function PopularHikingTrail({ event }) {
+  const num = event?.attendees.length;
   const picNum = num % 5;
   const hikePicUri = "trail_" + picNum + ".jpg";
   const cyclePicUri = "cycling_" + picNum + ".jpg";
@@ -12,10 +12,10 @@ export default function PopularHikingTrail({ trail }) {
     <div className="card landingpage-card">
       <Link
         style={{ textDecoration: "none", color: "inherit" }}
-        to={`/trails/${trail?._id}`}
+        to={`/events/${event?._id}`}
       >
         <div className="card-body">
-          {trail?.mode === "cycling" ? (
+          {event?.mode === "cycling" ? (
             <img
               src={process.env.PUBLIC_URL + "/images/" + cyclePicUri}
               alt="pic"
@@ -23,7 +23,7 @@ export default function PopularHikingTrail({ trail }) {
             ></img>
           ) : (
             <img
-              src={process.env.PUBLIC_URL + "/images/" + hikePicUri}
+              src={process.env.PUBLIC_URL + "/images/" + cyclePicUri}
               alt="pic"
               className="card-img"
             ></img>
@@ -31,29 +31,29 @@ export default function PopularHikingTrail({ trail }) {
 
           <div className="card-title">
             <p>
-              <strong>{trail?.start.text_en}</strong>
+              <strong>{event?.title}</strong>
             </p>
           </div>
 
           <div className="card-description">
-            <span>
-              {trail?.mode === "cycling" ? (
-                <FaBicycle></FaBicycle>
-              ) : (
-                <FaHiking></FaHiking>
-              )}
-            </span>
+          <span> {event?.type}</span>
+            <FaTree color="green" className="star"></FaTree>
+            <span> {event?.points} </span>
+            
             <span> • </span>
-            <span>{trail?.difficulty}</span>
-            <span> • </span>
-            <FaStar color="#f5d24c" className="star"></FaStar>
-            <span> {trail?.like} </span>
+            
+            <FaMale color="gray" className="star"></FaMale>
+            <span>{event?.attendees.length}</span>
+
+            
           </div>
 
           <div className="card-description">
-            <span>Length: {trail?.distance} km</span>
-            <span> • </span>
-            <span>Time: {trail?.duration} m</span>
+            <span>Location: {event?.location}</span>
+          </div>
+
+          <div className="card-description">
+            <span>Date: {event?.date.substring(5,10)}</span>
           </div>
         </div>
       </Link>
