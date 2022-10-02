@@ -3,27 +3,36 @@ import "./css/home.css";
 import Greeting from "../components/Greeting";
 import { FaArrowCircleRight } from "react-icons/fa";
 import ResponsiveSlider from "../components/TrailCollectionComponents/ResponsiveSlider";
-import {fetchAllEvents, fetchAllUsersSortByTotalPoints, fetchLatestChallenge} from "../api/API";
+import {
+  fetchAllEvents,
+  fetchAllEventsSortByPopularity,
+  fetchAllUsersSortByTotalPoints,
+  fetchLatestChallenge
+} from "../api/API";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  const { user,isAuthenticated } = useAuth0();
-  const [events, setEvents] = useState([]);
-  console.log(events);
+  const {user, isAuthenticated} = useAuth0();
+  const [recentEvents, setRecentEvents] = useState([]);
+  const [popularEvents, setPopularEvents] = useState([]);
+  console.log(recentEvents);
 
   useEffect(() => {
     // TODO populate data into page
     fetchLatestChallenge()
       .then((data) => console.log(data));
     // TODO populate data into page
-    fetchAllUsersSortByTotalPoints().then((data)=>console.log(data));
+    fetchAllUsersSortByTotalPoints().then((data) => console.log(data));
 
     const getEvents = async () => {
       const data = await fetchAllEvents();
-      setEvents(data);
+      setRecentEvents(data);
     };
     getEvents();
+
+    fetchAllEventsSortByPopularity().then((data) => setPopularEvents(data));
+
   }, []);
 
   // useEffect(() => {
@@ -70,7 +79,7 @@ export default function Home() {
     <div className="landing-page" id="Home-Page">
       <div id="home">
         <div className="landing-text">
-          <Greeting />
+          <Greeting/>
         </div>
       </div>
 
@@ -86,21 +95,21 @@ export default function Home() {
             </div>
           </div>
 
-          <ResponsiveSlider list={events}></ResponsiveSlider>
+          <ResponsiveSlider list={recentEvents}></ResponsiveSlider>
         </div>
 
         <div className="section-container favoriteHiking">
           <div className="section-header-container">
             <div className="section-header-content">
               <h1>Popular Events</h1>
-              <Link className="section-header-link"  to="/events">
+              <Link className="section-header-link" to="/events">
                 <strong>view all</strong>
                 <FaArrowCircleRight className="section-header-icon"></FaArrowCircleRight>
               </Link>
             </div>
           </div>
 
-          {/* <ResponsiveSlider list={hikingTrails}></ResponsiveSlider> */}
+           <ResponsiveSlider list={popularEvents}></ResponsiveSlider>
         </div>
 
       </main>

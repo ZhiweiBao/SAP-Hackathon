@@ -12,4 +12,9 @@ const EventSchema = new Schema({
     creator: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
+// Virtual for number of attendees.
+EventSchema.virtual("attendeeNumber").get(function () {
+    return this.attendees.length;
+});
+
 module.exports = mongoose.model('Event', EventSchema);

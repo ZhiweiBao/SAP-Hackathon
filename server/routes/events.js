@@ -5,6 +5,9 @@ const event_controller = require("../controller/eventController");
 /* GET events listing. */
 router.get('/', event_controller.event_list);
 
+// GET request: get events sort by number of attendees.
+router.get("/popular", event_controller.event_list_sort_by_attendees_length);
+
 // GET request: get events by title.
 router.get("/title/:title", event_controller.event_list_filter_by_title);
 

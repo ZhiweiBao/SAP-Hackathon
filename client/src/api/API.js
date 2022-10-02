@@ -74,6 +74,16 @@ export async function fetchAllEvents() {
   }
 }
 
+// fetch all events sort by number of attendees
+export async function fetchAllEventsSortByPopularity() {
+  try {
+    const response = await fetch(`${serverUrl}/events/popular`);
+    return await response.json();
+  } catch (err) {
+    console.log(`Fetch failed: event list.\nError: ${err}`);
+  }
+}
+
 // fetch all events filter by title
 export async function fetchEventsFilterByTitle(title) {
   try {

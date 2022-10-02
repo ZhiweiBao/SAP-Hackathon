@@ -2,12 +2,26 @@ const Event = require("../models/event");
 
 // GET request: get all events as a list
 exports.event_list = function (req, res) {
-  Event.find().exec(function (err, event_list) {
-    if (err) {
-      return res.status(500).json({message: err});
-    }
-    res.status(200).json(event_list);
-  })
+  Event.find()
+    .sort({date: -1})
+    .exec(function (err, event_list) {
+      if (err) {
+        return res.status(500).json({message: err});
+      }
+      res.status(200).json(event_list);
+    })
+}
+
+// GET request: get all events sort by number of attendees.
+exports.event_list_sort_by_attendees_length = function (req, res) {
+  Event.find()
+    .sort({attendeeNumber: -1})
+    .exec(function (err, event_list) {
+      if (err) {
+        return res.status(500).json({message: err});
+      }
+      res.status(200).json(event_list);
+    })
 }
 
 // GET request: get all events filter by title and sort by attendees number
