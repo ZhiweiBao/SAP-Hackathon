@@ -139,6 +139,16 @@ export async function fetchAllChallenges() {
   }
 }
 
+// fetch the latest challenge
+export async function fetchLatestChallenge() {
+  try {
+    const response = await fetch(`${serverUrl}/challenges/latest`);
+    return await response.json();
+  } catch (err) {
+    console.log(`Fetch failed: the latest challenge.\nError: ${err}`);
+  }
+}
+
 // fetch challenge data
 export async function fetchChallengeByID(id) {
   try {

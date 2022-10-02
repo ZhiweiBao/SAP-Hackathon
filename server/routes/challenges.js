@@ -5,6 +5,9 @@ const challenge_controller = require("../controller/challengeController");
 /* GET challenges listing. */
 router.get('/', challenge_controller.challenge_list);
 
+// GET request: get the latest challenge
+router.get("/latest", challenge_controller.challenge_latest);
+
 // GET request: get one challenge by challenge id.
 router.get("/:id", challenge_controller.challenge_detail);
 
