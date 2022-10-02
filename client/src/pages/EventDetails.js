@@ -200,7 +200,7 @@ export default function EventDetails() {
       <main className="main-container" id="TrailDetrails-Page">
         <div className="detail-navbar">
           <a href="#detail-type">EVENT DETAIL</a>
-          <a href="#detail-instruction">CONTEXT</a>
+          <a href="#detail-instruction">CONTENT</a>
           <a href="#detail-map">LOCATION</a>
           <a href="#reviews">PARTICIPANTS</a>
         </div>
@@ -237,7 +237,7 @@ export default function EventDetails() {
         <hr/>
 
         <div className="detail-instruction" id="detail-instruction">
-          <h1>Context</h1>
+          <h1>Content</h1>
           <div className="detail-instruction-place">
             <p>
               <strong>{event.context}</strong>

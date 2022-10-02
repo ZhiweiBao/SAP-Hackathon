@@ -49,7 +49,6 @@ export default function Events() {
         <SearchResult key={index} event={item}/>
       ))}
 
-      {events.length === 0 && <p>No result.</p>}
     </div>
   );
 }

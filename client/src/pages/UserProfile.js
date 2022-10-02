@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {FaEnvelope, FaUser} from "react-icons/fa";
+import {FaTree, FaUser} from "react-icons/fa";
 import "./css/Profile.css";
 import {Row, Col, Form, Button} from "react-bootstrap";
 import CalendarHeatmap from 'react-calendar-heatmap';
@@ -97,11 +97,21 @@ function UserProfile() {
           <Row>
             <Row>
               <div className="profile-header-icon">
-                <FaEnvelope/>
-                Email
+                <FaTree color="green"/>
+                Green Point
               </div>
             </Row>
-            <Row>{user?.email}</Row>
+            <Row>110</Row>
+          </Row>
+          <Row>Badges:
+            <div>
+              <img
+                src={process.env.PUBLIC_URL + "/images/" + "Augustchallenge.png"}
+                alt="Challenge Badge"
+                className="card-img"
+              ></img>
+            </div>
+
           </Row>
         </Col>
 
@@ -116,7 +126,7 @@ function UserProfile() {
                   <Form.Control
                     type="username"
                     placeholder="username"
-                    value={user.name}
+                    value={userProfile?.first_name}
                     onChange={(e) => setUserProfile(e.target.value)}
                   ></Form.Control>
                   <Form.Text className="text-muted">
@@ -187,7 +197,7 @@ function UserProfile() {
         </Col>
       </Row>
 
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center" style={{margin:"auto",width:"90%"}}>
         <CalendarHeatmap
           startDate={'2021-10-02'}
           endDate={Date.now()}
@@ -196,6 +206,7 @@ function UserProfile() {
           }
         />
       </Row>
+      <br/>
 
     </div>
   );
