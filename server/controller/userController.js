@@ -29,3 +29,33 @@ exports.user_detail_by_email = function (req, res) {
     res.status(200).json(user);
   });
 };
+
+// PUT request: add event by event id
+exports.user_add_event = function (req, res) {
+  User.findByIdAndUpdate(req.params.id,
+    {
+      $addToSet: {
+        events: req.params.event_id
+      }
+    },
+    {new: true},
+    function (err, newUser) {
+      err ? res.status(500).json({message: err}) : res.status(200).json(newUser);
+    }
+  )
+}
+
+// PUT request: remove event by event id
+exports.user_remove_event = function (req, res) {
+  User.findByIdAndUpdate(req.params.id,
+    {
+      $pull: {
+        events: req.params.event_id
+      }
+    },
+    {new: true},
+    function (err, newUser) {
+      err ? res.status(500).json({message: err}) : res.status(200).json(newUser);
+    }
+  )
+}

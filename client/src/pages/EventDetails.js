@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { user, isAuthenticated, useAuth0 } from "@auth0/auth0-react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useAuth0} from "@auth0/auth0-react";
 import "./css/TrailDetails.css";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
   FaStar,
   FaRegStar,
@@ -12,15 +12,19 @@ import {
   FaTree,
   FaRegClock,
 } from "react-icons/fa";
-import ReviewPanel from "../components/ReviewPanel";
-import AddReview from "../components/AddReview";
-import { fetchEventByID, fetchUserByID, fetchUserByEmail, updateEventAddAttendee, updateEventRemoveAttendee } from "../api/API";
+import {
+  fetchEventByID,
+  fetchUserByEmail,
+  updateEventAddAttendee,
+  updateEventRemoveAttendee,
+  updateUserAddEvent, updateUserRemoveEvent
+} from "../api/API";
 import moment from "moment";
 
 export default function EventDetails() {
   let navigate = useNavigate();
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const { eventId } = useParams();
+  const {user, isAuthenticated, loginWithRedirect} = useAuth0();
+  const {eventId} = useParams();
 
   const [event, setEvent] = useState({});
   const [attendees, setAttendees] = useState([]);
@@ -34,15 +38,15 @@ export default function EventDetails() {
       console.log("current event data is: ", data);
     });
 
-    fetchUserByEmail(user.email).then((data) => {
-      console.log("current user raw data is:  ", data);
-      console.log("current user id is: ", data[0]._id);
-      setUserId(data[0]._id);
-    });
+    if (isAuthenticated) {
+      fetchUserByEmail(user.email).then((data) => {
+        console.log("current user raw data is:  ", data);
+        console.log("current user id is: ", data[0]._id);
+        setUserId(data[0]._id);
+      });
+    }
+
   }, []);
-
-
-
 
 
   // useEffect(() => {
@@ -67,11 +71,10 @@ export default function EventDetails() {
   // }, [trailId]);
 
 
-
   async function addToList() {
     console.log("trying to add to user's event");
     if (!isAuthenticated) {
-      loginWithRedirect({ appState: { returnTo: window.location.pathname } })
+      loginWithRedirect({appState: {returnTo: window.location.pathname}})
       return;
     }
 
@@ -82,6 +85,8 @@ export default function EventDetails() {
       setAttendees(data.attendees);
       setEvent(data);
     });
+
+    updateUserAddEvent(userId, eventId);
 
     // const newEventId = `${event._id}`;
     // try {
@@ -149,6 +154,7 @@ export default function EventDetails() {
       setEvent(data);
     });
 
+    updateUserRemoveEvent(userId, eventId);
 
     // const deletedId = trailId;
 
@@ -201,18 +207,18 @@ export default function EventDetails() {
         <div className="detail-type" id="detail-type">
           <h1>{event.title}</h1>
 
-          <br />
+          <br/>
           <div className="detail-type-wrapper">
 
             <div className="detail-type-item">
-              <FaIcons size="2rem" />
+              <FaIcons size="2rem"/>
               <p>Event Type</p>
               <h2>{event.type}</h2>
               {/* <h2>{event.tyle}</h2> */}
             </div>
 
             <div className="detail-type-item">
-              <FaCalendarAlt size="2rem" />
+              <FaCalendarAlt size="2rem"/>
               <p>Event Date</p>
               {/* <h2>{event.date}</h2> */}
               <h2>{moment(event.date).format('MMM Do YYYY')}</h2>
@@ -220,14 +226,14 @@ export default function EventDetails() {
             </div>
 
             <div className="detail-type-item">
-              <FaTree size="2rem" />
+              <FaTree size="2rem"/>
               <p>Green Points</p>
               <h2>{event.points} points</h2>
             </div>
           </div>
         </div>
 
-        <hr />
+        <hr/>
 
         <div className="detail-instruction" id="detail-instruction">
           <h1>Context</h1>
@@ -257,7 +263,7 @@ export default function EventDetails() {
           </div>
         </div>
 
-        <hr />
+        <hr/>
         <div className="detail-map" id="detail-map">
           <h1>Location</h1>
           <div className="detail-map-container">
@@ -265,7 +271,7 @@ export default function EventDetails() {
 
         </div>
 
-        <hr />
+        <hr/>
 
         <div className="reviews" id="reviews">
           <h1>Participants</h1>
@@ -281,7 +287,7 @@ export default function EventDetails() {
           </div> */}
         </div>
 
-        <hr />
+        <hr/>
 
       </main>
     </div>

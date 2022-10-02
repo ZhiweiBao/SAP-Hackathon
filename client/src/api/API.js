@@ -6,7 +6,7 @@ export async function fetchAllUsers() {
     const response = await fetch(`${serverUrl}/users`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: user list.\n Error: ${err}`);
+    console.log(`Fetch failed: user list.\nError: ${err}`);
   }
 }
 
@@ -16,7 +16,7 @@ export async function fetchUserByID(id) {
     const response = await fetch(`${serverUrl}/users/${id}`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: user information.\n Error: ${err}`);
+    console.log(`Fetch failed: user information.\nError: ${err}`);
   }
 }
 
@@ -26,7 +26,31 @@ export async function fetchUserByEmail(email) {
     const response = await fetch(`${serverUrl}/users/email/${email}`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: user information.\n Error: ${err}`);
+    console.log(`Fetch failed: user information.\nError: ${err}`);
+  }
+}
+
+// add event to user
+export async function updateUserAddEvent(user_id, event_id) {
+  try {
+    const response = await fetch(`${serverUrl}/users/${user_id}/addEvent/${event_id}`, {
+      method: 'PUT'
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(`Update failed: add event to user.\nError: ${err}`);
+  }
+}
+
+// remove event from user
+export async function updateUserRemoveEvent(user_id, event_id) {
+  try {
+    const response = await fetch(`${serverUrl}/users/${user_id}/removeEvent/${event_id}`, {
+      method: 'PUT'
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(`Update failed: remove event from user.\nError: ${err}`);
   }
 }
 
@@ -36,7 +60,7 @@ export async function fetchAllEvents() {
     const response = await fetch(`${serverUrl}/events`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: event list.\n Error: ${err}`);
+    console.log(`Fetch failed: event list.\nError: ${err}`);
   }
 }
 
@@ -46,7 +70,7 @@ export async function fetchEventByID(id) {
     const response = await fetch(`${serverUrl}/events/${id}`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: event information.\n Error: ${err}`);
+    console.log(`Fetch failed: event information.\nError: ${err}`);
   }
 }
 
@@ -59,7 +83,7 @@ export async function updateEventAddAttendee(eventId, userId) {
     console.log(`${serverUrl}/events/${eventId}/addAttendee/${userId}`);
     return await response.json();
   } catch (err) {
-    console.log(`Update failed: add event attendees.\n Error: ${err}`);
+    console.log(`Update failed: add event attendees.\nError: ${err}`);
   }
 }
 
@@ -71,7 +95,7 @@ export async function updateEventRemoveAttendee(eventId, userId) {
     });
     return await response.json();
   } catch (err) {
-    console.log(`Update failed: remove event attendees.\n Error: ${err}`);
+    console.log(`Update failed: remove event attendees.\nError: ${err}`);
   }
 }
 
@@ -81,7 +105,7 @@ export async function fetchAllBadges() {
     const response = await fetch(`${serverUrl}/badges`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: badge list.\n Error: ${err}`);
+    console.log(`Fetch failed: badge list.\nError: ${err}`);
   }
 }
 
@@ -91,7 +115,7 @@ export async function fetchBadgeByID(id) {
     const response = await fetch(`${serverUrl}/badges/${id}`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: badge information.\n Error: ${err}`);
+    console.log(`Fetch failed: badge information.\nError: ${err}`);
   }
 }
 
@@ -101,7 +125,7 @@ export async function fetchAllChallenges() {
     const response = await fetch(`${serverUrl}/challenges`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: challenge list.\n Error: ${err}`);
+    console.log(`Fetch failed: challenge list.\nError: ${err}`);
   }
 }
 
@@ -111,7 +135,7 @@ export async function fetchChallengeByID(id) {
     const response = await fetch(`${serverUrl}/challenges/${id}`);
     return await response.json();
   } catch (err) {
-    console.log(`Fetch failed: challenge information.\n Error: ${err}`);
+    console.log(`Fetch failed: challenge information.\nError: ${err}`);
   }
 }
 
