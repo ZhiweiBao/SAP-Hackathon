@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import ReviewPanel from "../components/ReviewPanel";
 import AddReview from "../components/AddReview";
-import { fetchEventByID, fetchUserByID, fetchUserByEmail } from "../api/API";
+import { fetchEventByID, fetchUserByID, fetchUserByEmail, updateEventAddAttendee, updateEventRemoveAttendee } from "../api/API";
 import moment from "moment";
 
 export default function EventDetails() {
@@ -24,6 +24,7 @@ export default function EventDetails() {
 
   const [event, setEvent] = useState({});
   const [attendees, setAttendees] = useState([]);
+  const [userId, setUserId] = useState("");
 
 
   useEffect(() => {
@@ -32,13 +33,13 @@ export default function EventDetails() {
       setAttendees(data.attendees);
       console.log("current event data is: ", data);
     });
-  }, []);
 
-  const userId = fetchUserByEmail(user.email).then((data) => {
-    console.log("current user raw data is:  ", data);
-    console.log("current user id is: ", data[0]._id);
-    return data[0]._id;
-  });
+    fetchUserByEmail(user.email).then((data) => {
+      console.log("current user raw data is:  ", data);
+      console.log("current user id is: ", data[0]._id);
+      setUserId(data[0]._id);
+    });
+  }, []);
 
 
 
@@ -73,6 +74,14 @@ export default function EventDetails() {
       loginWithRedirect({ appState: { returnTo: window.location.pathname } })
       return;
     }
+
+    updateEventAddAttendee(eventId, userId).then((data) => {
+      console.log("user id: ", userId);
+      console.log("trying to add: ", data);
+      console.log("new attendees: ", data.attendees);
+      setAttendees(data.attendees);
+      setEvent(data);
+    });
 
     // const newEventId = `${event._id}`;
     // try {
@@ -132,6 +141,15 @@ export default function EventDetails() {
 
   async function removeFromList() {
     console.log("trying to withdraw from event");
+
+    updateEventRemoveAttendee(eventId, userId).then((data) => {
+      console.log("withdrawing: ", userId);
+      console.log("new attendees: ", data.attendees); //todo new event is returned back
+      setAttendees(data.attendees);
+      setEvent(data);
+    });
+
+
     // const deletedId = trailId;
 
     // try {

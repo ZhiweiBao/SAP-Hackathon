@@ -56,6 +56,7 @@ export async function updateEventAddAttendee(eventId, userId) {
     const response = await fetch(`${serverUrl}/events/${eventId}/addAttendee/${userId}`, {
       method: 'PUT'
     });
+    console.log(`${serverUrl}/events/${eventId}/addAttendee/${userId}`);
     return await response.json();
   } catch (err) {
     console.log(`Update failed: add event attendees.\n Error: ${err}`);
