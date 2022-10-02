@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import TrailCardOfUser from "../components/TrailCardOfUser";
 import "./css/UserLists.css";
+import {fetchAllUsersSortByTotalPoints} from "../api/API";
+import login from "./Login";
 
 function UserLists() {
   const { user } = useAuth0();
@@ -9,6 +11,7 @@ function UserLists() {
   const [trails, setTrails] = useState([]);
 
   useEffect(() => {
+    fetchAllUsersSortByTotalPoints().then((data)=>console.log(data));
     async function fetchUserList() {
       try {
         const response = await fetch(

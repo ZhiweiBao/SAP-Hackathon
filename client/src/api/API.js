@@ -1,12 +1,22 @@
 const serverUrl = process.env.REACT_APP_SERVER_URL
 
-//fetch all users
+// fetch all users
 export async function fetchAllUsers() {
   try {
     const response = await fetch(`${serverUrl}/users`);
     return await response.json();
   } catch (err) {
     console.log(`Fetch failed: user list.\nError: ${err}`);
+  }
+}
+
+// fetch all users sort by total points
+export async function fetchAllUsersSortByTotalPoints() {
+  try {
+    const response = await fetch(`${serverUrl}/users/sortByTotalPoints`);
+    return await response.json();
+  } catch (err) {
+    console.log(`Fetch failed: user list sort by total points.\nError: ${err}`);
   }
 }
 

@@ -10,6 +10,18 @@ exports.user_list = function (req, res) {
   })
 }
 
+// GET request: get all users sort by total points
+exports.user_list_by_total_points = function (req, res) {
+  User.find()
+    .sort({total_points: -1})
+    .exec(function (err, user_list) {
+      if (err) {
+        return res.status(500).json({message: err});
+      }
+      res.status(200).json(user_list);
+    })
+}
+
 // GET request: get one user by Id.
 exports.user_detail = function (req, res) {
   User.findById(req.params.id).exec(function (err, user) {

@@ -7,8 +7,6 @@ import EventCard from "../components/EventCard";
 
 
 export default function Events() {
-  const baseURL = process.env.REACT_APP_BASE_URL;
-  const { searchCriteria } = useParams();
   const [events, setEvents] = useState([]);
 
   useEffect(() => {

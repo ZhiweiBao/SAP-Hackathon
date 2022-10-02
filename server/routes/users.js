@@ -5,6 +5,9 @@ const user_controller = require("../controller/userController");
 /* GET users listing. */
 router.get('/', user_controller.user_list);
 
+// GET request: list users by total points
+router.get('/sortByTotalPoints', user_controller.user_list_by_total_points);
+
 // GET request: get one user by user id.
 router.get("/:id", user_controller.user_detail);
 
