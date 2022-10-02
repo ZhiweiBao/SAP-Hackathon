@@ -14,11 +14,22 @@ import {
 } from "react-icons/fa";
 import ReviewPanel from "../components/ReviewPanel";
 import AddReview from "../components/AddReview";
+import { fetchEventByID } from "../api/API";
+import moment from "moment";
 
 export default function EventDetails() {
   let navigate = useNavigate();
-  const { user, isAuthenticated,loginWithRedirect } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const { eventId } = useParams();
+
+  const [event, setEvent] = useState({});
+
+  useEffect(() => {
+    fetchEventByID(eventId).then((data) => {
+      setEvent(data);
+      console.log("current event data is: ", data);
+    });
+  }, []);
 
 
 
@@ -171,15 +182,15 @@ export default function EventDetails() {
         </div>
 
         <div className="detail-type" id="detail-type">
-          <h1>This is the event title</h1>
+          <h1>{event.title}</h1>
 
           <br />
           <div className="detail-type-wrapper">
-            
+
             <div className="detail-type-item">
               <FaIcons size="2rem" />
               <p>Event Type</p>
-              <h2>BBQ</h2>
+              <h2>{event.type}</h2>
               {/* <h2>{event.tyle}</h2> */}
             </div>
 
@@ -187,13 +198,14 @@ export default function EventDetails() {
               <FaCalendarAlt size="2rem" />
               <p>Event Date</p>
               {/* <h2>{event.date}</h2> */}
-              <h2>Oct 1, 2022, 1pm</h2>
+              <h2>{moment(event.date).format('MMM Do YYYY')}</h2>
+
             </div>
 
             <div className="detail-type-item">
               <FaTree size="2rem" />
               <p>Green Points</p>
-              <h2>2 points</h2>
+              <h2>{event.points} points</h2>
             </div>
           </div>
         </div>
@@ -204,7 +216,7 @@ export default function EventDetails() {
           <h1>Context</h1>
           <div className="detail-instruction-place">
             <p>
-              <strong>xxx:</strong>
+              <strong>{event.context}</strong>
             </p>
           </div>
 
@@ -232,13 +244,17 @@ export default function EventDetails() {
         <div className="detail-map" id="detail-map">
           <h1>Location</h1>
           <div className="detail-map-container">
-          </div>
+            {event.location}</div>
+
         </div>
 
         <hr />
 
         <div className="reviews" id="reviews">
           <h1>Participants</h1>
+          <div className="participants">
+            People who are going to this event
+          </div>
           {/* <div className="review-add">
             <AddReview trail_id={trailId}></AddReview>
           </div>

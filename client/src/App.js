@@ -14,8 +14,8 @@ import Challenge from "./pages/Challenge"
 import EventDetails from "./pages/EventDetails"
 
 function App() {
-  const {isLoading } = useAuth0();
-  const location=useLocation();
+  const { isLoading } = useAuth0();
+  const location = useLocation();
   const hideFooter = location.pathname.includes("/map") || location.pathname === "/addtrail";
 
   if (isLoading) {
@@ -27,7 +27,7 @@ function App() {
       <Banner />
       <AppRouter />
       {!hideFooter && <Footer />}
-      
+
     </div>
   );
 }
@@ -38,7 +38,7 @@ function AppRouter() {
       <Route path="/" element={<Home />} />
       <Route path="/events" element={<Events />} />
       <Route path="/challenge" element={<Challenge />} />
-      <Route path="events/:eventId" element={<EventDetails />} />
+      <Route path="/events/:eventId" element={<EventDetails />} />
 
       <Route path="/user/profile" element={<ProtectedRoute Component={UserProfile} />} />
       <Route path="/user/lists" element={<ProtectedRoute Component={UserLists} />} />

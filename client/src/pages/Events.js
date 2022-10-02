@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Search from "../components/Search"
 import { fetchAllEvents } from "../api/API";
+import EventCard from "../components/EventCard";
 
 
 export default function Events() {
@@ -27,7 +28,8 @@ export default function Events() {
 
       {events.map((item) => (
         // EventCard
-        <div>item</div>
+        // <div>item</div>
+        <EventCard event={item}></EventCard>
       ))}
       {events.length === 0 && <p>No result.</p>}
     </div>
