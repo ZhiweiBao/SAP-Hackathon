@@ -14,6 +14,9 @@ router.get("/title/:title", event_controller.event_list_filter_by_title);
 // GET request: get one event by event id.
 router.get("/:id", event_controller.event_detail);
 
+//GET request: get event list by attendee id
+router.get("/user/:user_id", event_controller.event_list_by_user_id)
+
 // PUT request: add attendee to event
 router.put("/:id/addAttendee/:user_id", event_controller.event_add_attendee);
 

@@ -48,6 +48,19 @@ exports.event_detail = function (req, res) {
   });
 };
 
+
+// GET request: get one event by Id.
+exports.event_list_by_user_id = function (req, res) {
+  Event.find({
+  attendees: { $elemMatch: {$eq: `${req.params.user_id}`} }
+  }).exec(function (err, event) {
+    if (err) {
+      return res.status(500).json({message: err});
+    }
+    res.status(200).json(event);
+  });
+};
+
 // PUT request: add attendee by user_id
 exports.event_add_attendee = function (req, res) {
   Event.findByIdAndUpdate(req.params.id,
