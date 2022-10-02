@@ -10,7 +10,7 @@ export async function fetchUserByID(id) {
     }
     const data = await response.json();
     return data;
-  }catch (err) {
+  } catch (err) {
     console.log("err", err);
   }
 }
@@ -25,7 +25,7 @@ export async function fetchEventByID(id) {
     }
     const data = await response.json();
     return data;
-  }catch (err) {
+  } catch (err) {
     console.log("err", err);
   }
 }
@@ -43,6 +43,7 @@ export async function fetchAllEvents() {
     console.log("err", err);
   }
 }
+
 
 // export async function fetchTrailsByMode(mode) {
 //   try {
