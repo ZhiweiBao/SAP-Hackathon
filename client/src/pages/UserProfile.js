@@ -187,7 +187,7 @@ function UserProfile() {
         </Col>
       </Row>
 
-      <Row>
+      <Row className="justify-content-md-center">
         <CalendarHeatmap
           startDate={'2021-10-02'}
           endDate={Date.now()}

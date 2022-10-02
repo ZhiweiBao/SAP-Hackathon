@@ -5,24 +5,29 @@ import { FaCalendarAlt } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
 import Search from "./Search"
 import { Link } from "react-router-dom";
+import {fetchLatestChallenge} from "../api/API";
 
 
 
 export default function Greeting() {
   const { user, isAuthenticated } = useAuth0();
-  const [userName, setuserName] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [challenge, setChallenge] = useState(null);
+
   console.log("Login", isAuthenticated);
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     if (isAuthenticated) {
-  //       const data = await fetchUser(user?.sub);
-  //       setuserName(data.avatar_name);
+  useEffect(() => {
+    fetchLatestChallenge().then(data => setChallenge(data));
 
-  //     }
-  //   };
-  //   getUser();
-  // }, []);
+    // const getUser = async () => {
+    //   if (isAuthenticated) {
+    //     const data = await fetchUser(user?.sub);
+    //     setuserName(data.avatar_name);
+    //
+    //   }
+    // };
+    // getUser();
+  }, []);
 
   function getDate() {
     let greeting = "";

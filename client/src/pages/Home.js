@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import "./css/home.css";
 import Greeting from "../components/Greeting";
-import { FaArrowCircleRight } from "react-icons/fa";
+import {FaArrowCircleRight} from "react-icons/fa";
 import ResponsiveSlider from "../components/TrailCollectionComponents/ResponsiveSlider";
 import {
   fetchAllEvents,
@@ -9,21 +9,20 @@ import {
   fetchAllUsersSortByTotalPoints,
   fetchLatestChallenge
 } from "../api/API";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
+import {useAuth0} from "@auth0/auth0-react";
+import {Link} from "react-router-dom";
+import Rankings from "../components/Rankings";
 
 export default function Home() {
   const {user, isAuthenticated} = useAuth0();
   const [recentEvents, setRecentEvents] = useState([]);
   const [popularEvents, setPopularEvents] = useState([]);
+  const [users, setUsers] = useState([]);
   console.log(recentEvents);
 
   useEffect(() => {
-    // TODO populate data into page
-    fetchLatestChallenge()
-      .then((data) => console.log(data));
-    // TODO populate data into page
-    fetchAllUsersSortByTotalPoints().then((data) => console.log(data));
+
+    fetchAllUsersSortByTotalPoints().then(data => setUsers(data));
 
     fetchAllEvents().then(data => setRecentEvents(data));
 
@@ -105,10 +104,15 @@ export default function Home() {
             </div>
           </div>
 
-           <ResponsiveSlider list={popularEvents}></ResponsiveSlider>
+          <ResponsiveSlider list={popularEvents}></ResponsiveSlider>
         </div>
 
       </main>
+
+      <aside>
+        <Rankings list={users}/>
+      </aside>
+
     </div>
   );
 }
