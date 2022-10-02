@@ -15,7 +15,7 @@ function Rankings({list}) {
             <div className="fw-bold">{`${user.first_name} ${user.last_name}`}</div>
             {user.organization}
           </div>
-          <Badge bg="primary" pill>
+          <Badge bg="success" pill>
             {user.total_points}
           </Badge>
         </ListGroup.Item>
