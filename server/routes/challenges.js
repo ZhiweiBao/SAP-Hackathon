@@ -3,9 +3,7 @@ var router = express.Router();
 const challenge_controller = require("../controller/challengeController");
 
 /* GET challenges listing. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+router.get('/', challenge_controller.challenge_list);
 
 // GET request: get one challenge by challenge id.
 router.get("/:id", challenge_controller.challenge_detail);

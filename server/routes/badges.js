@@ -3,9 +3,7 @@ var router = express.Router();
 const badge_controller = require("../controller/badgeController");
 
 /* GET badges listing. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+router.get('/', badge_controller.badge_list);
 
 // GET request: get one badge by badge id.
 router.get("/:id", badge_controller.badge_detail);
