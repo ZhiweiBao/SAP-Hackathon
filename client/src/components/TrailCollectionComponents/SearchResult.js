@@ -1,12 +1,11 @@
 import React from "react";
-import { FaBicycle } from "react-icons/fa";
-import { FaHiking } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
+import { FaTree, FaMale } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../css/Search.css";
+import moment from "moment";
 
-export default function SearchResult({ trail }) {
-  const num = trail?.image;
+export default function SearchResult({ event }) {
+  const num = event?.attendees.length;
   const picNum = num % 5;
   const hikePicUri = "trail_" + picNum + ".jpg";
   const cyclePicUri = "cycling_" + picNum + ".jpg";
@@ -16,54 +15,39 @@ export default function SearchResult({ trail }) {
         <div className="search-card-body">
           <Link
             style={{ textDecoration: "none", color: "inherit" }}
-            to={`/trails/${trail?._id}`}
+            to={`/events/${event?._id}`}
           >
             <div className="search-detail">
               <div className="search-Img">
-                {trail?.mode === "cycling" ? (
                   <img
                     src={process.env.PUBLIC_URL + "/images/" + cyclePicUri}
                     alt="pic"
                     className="card-img"
                   ></img>
-                ) : (
-                  <img
-                    src={process.env.PUBLIC_URL + "/images/" + hikePicUri}
-                    alt="pic"
-                    className="card-img"
-                  ></img>
-                )}
               </div>
 
               <div className="search-detailInfo">
                 <div className="search-card-title">
-                  from<strong> {trail?.start.text_en}</strong> to{" "}
-                  <strong>{trail?.destination.text_en}</strong>
+                <p>
+                    <strong>{event?.title}</strong>
+                  </p>
                 </div>
 
                 <div className="search-card-description">
-                  <span>
-                    {trail?.mode === "cycling" ? (
-                      <FaBicycle size={"7%"}></FaBicycle>
-                    ) : (
-                      <FaHiking size={"5%"}></FaHiking>
-                    )}
-                  </span>
+                <span> {event?.type}</span>
+                  <FaTree color="green" className="star"></FaTree>
+                  <span> {event?.points} </span>
+
                   <span> • </span>
-                  <span>{trail?.difficulty}</span>
-                  <span> • </span>
-                  <FaStar color="#f5d24c" className="star"></FaStar>
-                  <span> {trail?.like} </span>
+
+                  <FaMale color="gray" className="star"></FaMale>
+                  <span>{event?.attendees.length}</span>
                 </div>
 
                 <div className="search-card-description">
-                  <span>
-                    <strong>Length:</strong> {trail?.distance} km
-                  </span>
+                <span>Location: {event?.location}</span>
                   <span> • </span>
-                  <span>
-                    <strong>Time:</strong> {trail?.duration} mins
-                  </span>
+                  <span>Date: {moment(event.date).format('MMM DD')}</span>
                 </div>
               </div>
             </div>

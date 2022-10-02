@@ -20,6 +20,7 @@ import {
   updateUserAddEvent, updateUserRemoveEvent
 } from "../api/API";
 import moment from "moment";
+import Review from "../components/Review";
 
 export default function EventDetails() {
   let navigate = useNavigate();
@@ -199,7 +200,7 @@ export default function EventDetails() {
       <main className="main-container" id="TrailDetrails-Page">
         <div className="detail-navbar">
           <a href="#detail-type">EVENT DETAIL</a>
-          <a href="#detail-instruction">CONTEXT</a>
+          <a href="#detail-instruction">CONTENT</a>
           <a href="#detail-map">LOCATION</a>
           <a href="#reviews">PARTICIPANTS</a>
         </div>
@@ -236,7 +237,7 @@ export default function EventDetails() {
         <hr/>
 
         <div className="detail-instruction" id="detail-instruction">
-          <h1>Context</h1>
+          <h1>Content</h1>
           <div className="detail-instruction-place">
             <p>
               <strong>{event.context}</strong>
@@ -280,11 +281,18 @@ export default function EventDetails() {
           </div>
           {/* <div className="review-add">
             <AddReview trail_id={trailId}></AddReview>
-          </div>
+          </div> */}
 
           <div className="review-list">
-            <ReviewPanel trail_id={trailId}></ReviewPanel>
-          </div> */}
+            {/* <ReviewPanel trail_id={trailId}></ReviewPanel> */}
+            <div className="review-container">
+              {attendees.map((item, index) => (
+                <div>
+                  <Review key={index} userId={item}></Review>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <hr/>

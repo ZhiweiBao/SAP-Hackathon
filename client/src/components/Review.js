@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { fetchUser } from "../api/API";
+import { fetchUserByID } from "../api/API";
 import Avatar from "react-avatar";
 import "./css/Review.css";
 import { Rating } from "@mui/material";
+import Tree from "./Tree";
 
-export default function Review({ review }) {
+export default function Review({ userId }) {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const data = await fetchUser(review.user_id);
-  //     setUser(data);
-  //   };
-  //   getUser();
-  // }, []);
+  useEffect(() => {
+    const getUser = async () => {
+      // const data = await fetchUser(review.user_id);
+      const data = await fetchUserByID(userId);
+      setUser(data);
+    };
+    getUser();
+  }, []);
 
   return (
     <div className="review-item">
@@ -23,17 +25,18 @@ export default function Review({ review }) {
           className="reviewer-avatar"
           round={true}
           textSizeRatio={1.75}
-          name={user?.avatar_name}
+          name={user?.first_name}
         ></Avatar>
         <div className="reviewer-profile-info">
-          <strong>{user?.avatar_name}</strong>
+          <strong>{user?.first_name}</strong>
 
-          <Rating name="read-only" value={review.rating} readOnly />
-          <p>{review.date}</p>
+          {/* <Rating name="read-only" value={user?.total_points} readOnly /> */}
+          <Tree total_points={user?.total_points} />
+          {/* <p>{review.date}</p> */}
         </div>
       </div>
 
-      <div>{review.comment}</div>
+      {/* <div>{review.comment}</div> */}
     </div>
   );
 }

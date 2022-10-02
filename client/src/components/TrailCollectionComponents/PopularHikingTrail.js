@@ -2,6 +2,7 @@ import React from "react";
 import "../css/TrailCollection.css";
 import { FaTree, FaMale } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export default function PopularHikingTrail({ event }) {
   const num = event?.attendees.length;
@@ -53,7 +54,7 @@ export default function PopularHikingTrail({ event }) {
           </div>
 
           <div className="card-description">
-            <span>Date: {event?.date.substring(5,10)}</span>
+            <span>Date: {moment(event.date).format('MMM DD')}</span>
           </div>
         </div>
       </Link>

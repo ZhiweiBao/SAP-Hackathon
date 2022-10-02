@@ -1,66 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { FaEnvelope, FaUser } from "react-icons/fa";
+import React, {useState, useEffect} from "react";
+import {useAuth0} from "@auth0/auth0-react";
+import {FaTree, FaUser} from "react-icons/fa";
 import "./css/Profile.css";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import {Row, Col, Form, Button} from "react-bootstrap";
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
+import {fetchEventByID, fetchEventsByUserID, fetchUserByEmail} from "../api/API";
 
 function UserProfile() {
-  const { user } = useAuth0();
+  const {user, isAuthenticated, loginWithRedirect} = useAuth0();
   const [description, setDescription] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userProfile, setUserProfile] = useState(null);
+  const [events, setEvents] = useState([])
 
   // GET user description data from db.
   useEffect(() => {
-    async function fetchUserDescription() {
-      try {
-        const response = await fetch(`/api/users/${user.sub}`);
-        if (!response.ok) {
-          throw Error("Fetch failed");
-        }
-        const data = await response.json();
-        setDescription(data.description);
-      } catch (err) {
-        console.log("catch ", err);
-      }
+    if (!isAuthenticated) {
+      loginWithRedirect({appState: {returnTo: window.location.pathname}})
+      return;
     }
-    fetchUserDescription();
+    fetchUserByEmail(user.email).then((data) => {
+      console.log(data[0])
+      setUserProfile(data[0]);
+      fetchEventsByUserID(data[0]._id).then((data) => {
+        setEvents(data)
+        console.log(data)
+      })
+    })
+
   }, [user]);
 
   // handle the submission of the form
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/api/users/update/profile/${user.sub}`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          description: description,
-          avatar_name: userName,
-        }),
-      });
-      if (!response.ok) {
-        throw Error("Request failed");
-      }
-      refreshPage();
-    } catch (err) {
-      console.log(err);
-    }
+    // e.preventDefault();
+    // try {
+    //   const response = await fetch(`/api/users/update/profile/${user.sub}`, {
+    //     method: "POST",
+    //     headers: {"Content-type": "application/json"},
+    //     body: JSON.stringify({
+    //       description: description,
+    //       avatar_name: userProfile,
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //     throw Error("Request failed");
+    //   }
+    //   refreshPage();
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   // GET user nick name data from db.
   useEffect(() => {
     async function fetchUserName() {
-      try {
-        const response = await fetch(`/api/users/${user.sub}`);
-        if (!response.ok) {
-          throw Error("Fetch failed");
-        }
-        const data = await response.json();
-        setUserName(data.avatar_name);
-      } catch (err) {
-        console.log("catch ", err);
-      }
+      // try {
+      //   const response = await fetch(`/api/users/${user.sub}`);
+      //   if (!response.ok) {
+      //     throw Error("Fetch failed");
+      //   }
+      //   const data = await response.json();
+      //   setUserName(data.avatar_name);
+      // } catch (err) {
+      //   console.log("catch ", err);
+      // }
     }
+
     fetchUserName();
   }, [user]);
 
@@ -82,7 +87,7 @@ function UserProfile() {
           <Row>
             <Row>
               <div className="profile-header-icon">
-                <FaUser />
+                <FaUser/>
                 Username
               </div>
             </Row>
@@ -92,18 +97,28 @@ function UserProfile() {
           <Row>
             <Row>
               <div className="profile-header-icon">
-                <FaEnvelope />
-                Email
+                <FaTree color="green"/>
+                Green Point
               </div>
             </Row>
-            <Row>{user?.email}</Row>
+            <Row>110</Row>
+          </Row>
+          <Row>Badges:
+            <div>
+              <img
+                src={process.env.PUBLIC_URL + "/images/" + "Augustchallenge.png"}
+                alt="Challenge Badge"
+                className="card-img"
+              ></img>
+            </div>
+
           </Row>
         </Col>
 
         <Col className="profile-form" xs={12} md={8} lg={9}>
           <Form onSubmit={handleSubmit}>
             <Row>
-              <Col md={{ span: 5 }}>
+              <Col md={{span: 5}}>
                 <Form.Group>
                   <medium>
                     <Form.Label>Nickname</Form.Label>
@@ -111,23 +126,23 @@ function UserProfile() {
                   <Form.Control
                     type="username"
                     placeholder="username"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
+                    value={userProfile?.first_name}
+                    onChange={(e) => setUserProfile(e.target.value)}
                   ></Form.Control>
                   <Form.Text className="text-muted">
                     Edit your nickname here
                   </Form.Text>
                 </Form.Group>
               </Col>
-              <Col md={{ span: 5 }}>
+              <Col md={{span: 5}}>
                 <medium>
                   <Form.Label>Email</Form.Label>
                 </medium>
-                <Form.Control placeholder={user?.email} disabled />
+                <Form.Control placeholder={user?.email} disabled/>
               </Col>
             </Row>
             <Row>
-              <Col md={{ span: 5 }}>
+              <Col md={{span: 5}}>
                 <medium>
                   <Form.Label>Time Zone</Form.Label>
                 </medium>
@@ -137,7 +152,7 @@ function UserProfile() {
                 />
               </Col>
 
-              <Col md={{ span: 5 }}>
+              <Col md={{span: 5}}>
                 <medium>
                   <Form.Label>Country</Form.Label>
                 </medium>
@@ -148,7 +163,7 @@ function UserProfile() {
               </Col>
             </Row>
             <Row>
-              <Col md={{ span: 10 }}>
+              <Col md={{span: 10}}>
                 <Form.Label>About Me</Form.Label>
                 <Form.Control
                   type="aboutMe"
@@ -162,18 +177,18 @@ function UserProfile() {
               </Col>
             </Row>
             <Row className="profile-btn">
-              <Col md={{ span: 5 }}>
+              <Col md={{span: 5}}>
                 <Button
                   type="button"
                   variant="secondary"
-                  style={{ width: "50%" }}
+                  style={{width: "50%"}}
                   onClick={refreshPage}
                 >
                   Cancel
                 </Button>
               </Col>
-              <Col md={{ span: 5 }}>
-                <Button type="submit" variant="danger" style={{ width: "50%" }}>
+              <Col md={{span: 5}}>
+                <Button type="submit" variant="danger" style={{width: "50%"}}>
                   Save
                 </Button>
               </Col>
@@ -181,6 +196,18 @@ function UserProfile() {
           </Form>
         </Col>
       </Row>
+
+      <Row className="justify-content-md-center" style={{margin:"auto",width:"90%"}}>
+        <CalendarHeatmap
+          startDate={'2021-10-02'}
+          endDate={Date.now()}
+          values={
+            events.map(event => ({date: event.date, count: event.points}))
+          }
+        />
+      </Row>
+      <br/>
+
     </div>
   );
 }

@@ -12,8 +12,13 @@ const UserSchema = new Schema({
     organization: String,
     location: String,
     total_points: Number,
-    badges: [{ type: Schema.Types.ObjectId, ref: "Badge" }],
-    events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+    badges: [{type: Schema.Types.ObjectId, ref: "Badge"}],
+    events: [{type: Schema.Types.ObjectId, ref: "Event"}],
+});
+
+// Virtual for User full name.
+UserSchema.virtual("name").get(function () {
+    return this.first_name + " " + this.last_name;
 });
 
 module.exports = mongoose.model('User', UserSchema);

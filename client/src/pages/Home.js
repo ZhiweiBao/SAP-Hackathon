@@ -7,32 +7,25 @@ import {
   fetchAllEvents,
   fetchAllEventsSortByPopularity,
   fetchAllUsersSortByTotalPoints,
-  fetchLatestChallenge
+  fetchLatestChallenge,
 } from "../api/API";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import Rankings from "../components/Rankings";
 
 export default function Home() {
-  const {user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   const [recentEvents, setRecentEvents] = useState([]);
   const [popularEvents, setPopularEvents] = useState([]);
+  const [users, setUsers] = useState([]);
   console.log(recentEvents);
 
   useEffect(() => {
-    // TODO populate data into page
-    fetchLatestChallenge()
-      .then((data) => console.log(data));
-    // TODO populate data into page
-    fetchAllUsersSortByTotalPoints().then((data) => console.log(data));
+    fetchAllUsersSortByTotalPoints().then((data) => setUsers(data));
 
-    const getEvents = async () => {
-      const data = await fetchAllEvents();
-      setRecentEvents(data);
-    };
-    getEvents();
+    fetchAllEvents().then((data) => setRecentEvents(data));
 
     fetchAllEventsSortByPopularity().then((data) => setPopularEvents(data));
-
   }, []);
 
   // useEffect(() => {
@@ -79,40 +72,65 @@ export default function Home() {
     <div className="landing-page" id="Home-Page">
       <div id="home">
         <div className="landing-text">
-          <Greeting/>
+          <Greeting />
         </div>
       </div>
 
-      <main className="main-container">
-        <div className="section-container localFavorite">
-          <div className="section-header-container">
-            <div className="section-header-content">
-              <h1>Recent Events</h1>
-              <Link className="section-header-link" to="/events">
-                <strong>view all</strong>
-                <FaArrowCircleRight className="section-header-icon"></FaArrowCircleRight>
-              </Link>
+      <div style={{ 
+        display: "flex", 
+        flexDirection: "row",
+        maxWidth:"100vw",
+        justifyContent:"center",
+        alignItems:"center",
+        padding: "4rem",
+        flexWrap:"wrap",
+        
+         }}>
+        <main className="main-container" style={{ flex: 1, margin:"2rem"}}>
+          <div className="section-container localFavorite">
+            <div className="section-header-container">
+              <div className="section-header-content">
+                <h1>Recent Events</h1>
+                <Link className="section-header-link" to="/events">
+                  <strong>view all</strong>
+                  <FaArrowCircleRight className="section-header-icon"></FaArrowCircleRight>
+                </Link>
+              </div>
             </div>
+
+            <ResponsiveSlider list={recentEvents}></ResponsiveSlider>
           </div>
 
-          <ResponsiveSlider list={recentEvents}></ResponsiveSlider>
-        </div>
-
-        <div className="section-container favoriteHiking">
-          <div className="section-header-container">
-            <div className="section-header-content">
-              <h1>Popular Events</h1>
-              <Link className="section-header-link" to="/events">
-                <strong>view all</strong>
-                <FaArrowCircleRight className="section-header-icon"></FaArrowCircleRight>
-              </Link>
+          <div className="section-container favoriteHiking">
+            <div className="section-header-container">
+              <div className="section-header-content">
+                <h1>Popular Events</h1>
+                <Link className="section-header-link" to="/events">
+                  <strong>view all</strong>
+                  <FaArrowCircleRight className="section-header-icon"></FaArrowCircleRight>
+                </Link>
+              </div>
             </div>
-          </div>
 
-           <ResponsiveSlider list={popularEvents}></ResponsiveSlider>
+            <ResponsiveSlider list={popularEvents}></ResponsiveSlider>
+          </div>
+        </main>
+
+
+        <div style={{ flex: 1, margin:"2rem"}}>
+          <h2 style={{ color:"#408558"}}>Total Rank</h2>
+          <Rankings list={users} />
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+
+          <h2 style={{ color:"#408558"}}>Weekly Rank</h2>
+          <Rankings list={users} />
         </div>
 
-      </main>
+
+      </div>
     </div>
   );
 }

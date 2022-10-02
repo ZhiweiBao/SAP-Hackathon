@@ -15,7 +15,7 @@ exports.event_list = function (req, res) {
 // GET request: get all events sort by number of attendees.
 exports.event_list_sort_by_attendees_length = function (req, res) {
   Event.find()
-    .sort({attendeeNumber: -1})
+    .sort({points: -1})
     .exec(function (err, event_list) {
       if (err) {
         return res.status(500).json({message: err});
@@ -41,6 +41,19 @@ exports.event_list_filter_by_title = function (req, res) {
 // GET request: get one event by Id.
 exports.event_detail = function (req, res) {
   Event.findById(req.params.id).exec(function (err, event) {
+    if (err) {
+      return res.status(500).json({message: err});
+    }
+    res.status(200).json(event);
+  });
+};
+
+
+// GET request: get one event by Id.
+exports.event_list_by_user_id = function (req, res) {
+  Event.find({
+  attendees: { $elemMatch: {$eq: `${req.params.user_id}`} }
+  }).exec(function (err, event) {
     if (err) {
       return res.status(500).json({message: err});
     }

@@ -104,6 +104,18 @@ export async function fetchEventByID(id) {
   }
 }
 
+// fetch event list by user id
+export async function fetchEventsByUserID(user_id) {
+  try {
+    const response = await fetch(`${serverUrl}/events/user/${user_id}`);
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (err) {
+    console.log(`Fetch failed: event list by user id.\nError: ${err}`);
+  }
+}
+
 // add attendee to event
 export async function updateEventAddAttendee(eventId, userId) {
   try {
